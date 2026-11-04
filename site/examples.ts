@@ -22,7 +22,7 @@ export function examples(now = new Date()): { label: string; payload: string }[]
     { label: "QRIS", payload: build([["00", "01"], ["01", "11"], ["51", [["00", "ID.CO.QRIS.WWW"], ["02", "ID0000000000001"], ["03", "UMI"]]], ["52", "5812"], ["53", "360"], ["58", "ID"], ["59", "DEMO WARUNG"], ["60", "JAKARTA"]]) },
     // the account swapped for another, with the lengths updated but the old checksum kept
     { label: "An edited code", payload: khqrFor("someone_else@demo").slice(0, -4) + khqr.slice(-4) },
-    { label: "A disguised name", payload: build([["00", "01"], ["01", "11"], ["29", [["00", "demo_coffee@demo"]]], ["52", "5814"], ["53", "840"], ["58", "KH"], ["59", "DEMO COFFEE"], ["60", "Phnom Penh"], ["64", [["00", "en"], ["01", "Demo Coffee ‮4130"]]]]) },
+    { label: "A disguised name", payload: build([["00", "01"], ["01", "11"], ["29", [["00", "demo_coffee@demo"]]], ["52", "5814"], ["53", "840"], ["58", "KH"], ["59", "DEMO COFFEE"], ["60", "Phnom Penh"], ["64", [["00", "en"], ["01", "Demo Coffee \u202E4130"]]]]) },
     { label: "A link", payload: "https://pay.example.com/demo-coffee" },
   ];
 }

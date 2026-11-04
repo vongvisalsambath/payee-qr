@@ -97,7 +97,7 @@ try {
 
     await p.click('.examples .chip >> text="A disguised name"');
     const marker = await p.locator(".caution .hid").first().textContent();
-    const raw = await p.evaluate(() => document.getElementById("result").innerText.includes("‮"));
+    const raw = await p.evaluate(() => document.getElementById("result").innerText.includes("\u202E"));
     check(marker === "U+202E" && !raw, "a right-to-left override is shown as a marker, never as the character itself");
 
     await p.click('.examples .chip >> text="KHQR"');
@@ -115,7 +115,7 @@ try {
       'javascript:alert(1)',
       '000201' + '5920<script>alert(1)</script>' + '6304ABCD',
       '00020101021229140010a@b<i>x</i>',
-      '\u001B[2J‮txt.exe',
+      '\u001B[2J\u202Etxt.exe',
       '0'.repeat(20000),
     ];
     for (const text of hostile) {

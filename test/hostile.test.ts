@@ -27,7 +27,7 @@ function messagesAreSafe(r: Reading) {
 function rng(seed: number) {
   return () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
 }
-const NASTY = ["‮", "​", "\u0000", "\u001B[31m", "\uD800", "\uDFFF", "😀", "﻿", "\u0085", "<script>", "__proto__", "constructor", "9", "0", "99", "00", "6304", "\r\n"];
+const NASTY = ["\u202E", "\u200B", "\u0000", "\u001B[31m", "\uD800", "\uDFFF", "😀", "\uFEFF", "\u0085", "<script>", "__proto__", "constructor", "9", "0", "99", "00", "6304", "\r\n"];
 
 test("20,000 mutated codes: the reader never throws, stays fast, and its messages stay clean", () => {
   const random = rng(20261104);
@@ -114,7 +114,7 @@ test("names of JavaScript's built-in properties are ordinary values", () => {
 });
 
 test("a right-to-left override in the merchant name is reported, and escaped in the message", () => {
-  const r = parse(build([["00", "01"], ["29", [["00", "demo_shop@demo"]]], ["52", "5999"], ["53", "840"], ["58", "KH"], ["64", [["00", "KM"], ["01", "Acme‮0001"]]], ["59", "D"], ["60", "C"]]));
+  const r = parse(build([["00", "01"], ["29", [["00", "demo_shop@demo"]]], ["52", "5999"], ["53", "840"], ["58", "KH"], ["64", [["00", "KM"], ["01", "Acme\u202E0001"]]], ["59", "D"], ["60", "C"]]));
   const hidden = r.issues.find(i => i.code === "HIDDEN-CHARACTERS");
   assert.ok(hidden);
   assert.equal(hidden.path, "64.01");
@@ -124,7 +124,7 @@ test("a right-to-left override in the merchant name is reported, and escaped in 
 });
 
 test("hidden characters in an account ID are reported too", () => {
-  const r = parse(build([["00", "01"], ["29", [["00", "demo​shop@demo"]]], ["52", "5999"], ["53", "840"], ["58", "KH"], ["59", "D"], ["60", "C"]]));
+  const r = parse(build([["00", "01"], ["29", [["00", "demo\u200Bshop@demo"]]], ["52", "5999"], ["53", "840"], ["58", "KH"], ["59", "D"], ["60", "C"]]));
   assert.ok(r.issues.some(i => i.code === "HIDDEN-CHARACTERS" && i.path === "29.00"));
 });
 
