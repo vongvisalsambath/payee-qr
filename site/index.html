@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payee · Who does this payment QR really pay?</title>
+  <meta name="description" content="Scan or paste a payment QR code (KHQR, PromptPay, DuitNow, QRIS, VietQR, PayNow and other EMV codes) and see the account it pays, every field explained, and anything wrong with it. Runs in your browser; nothing is uploaded." />
+  <meta name="theme-color" content="#0f7b5f" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="favicon.svg" alt="" width="26" height="26" />Payee</a>
+    <p class="tag">Who does this payment QR really pay? Runs in your browser; nothing is uploaded.</p>
+    <nav><a href="https://github.com/vongvisalsambath/payee-qr">GitHub</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>See who a payment QR <span class="hl">really</span> pays</h1>
+      <p class="lead">A payment QR code holds the account the money goes to. The shop name your banking app shows is only text the code's maker typed in. Scan a code, open a photo of one, or paste its text to see the account, every field in plain English, and anything wrong with it.</p>
+    </section>
+
+    <section class="card input" aria-label="Read a code">
+      <div class="buttons">
+        <button type="button" id="scan">Scan with camera</button>
+        <button type="button" class="ghost" id="photo-button">Open a photo</button>
+        <input type="file" id="photo" accept="image/*" hidden />
+      </div>
+      <div class="camera" id="camera" hidden>
+        <video id="video" playsinline muted></video>
+        <button type="button" class="ghost" id="stop">Stop the camera</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <label for="text" class="paste-label">Or paste the code's text</label>
+      <textarea id="text" rows="3" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="000201010212…"></textarea>
+      <div class="examples" aria-label="Examples">
+        <span>Try:</span>
+      </div>
+    </section>
+
+    <section id="result" class="result" aria-live="polite"></section>
+
+    <section class="explain">
+      <h2>What it checks</h2>
+      <div class="cols">
+        <div>
+          <h3>Where the money goes</h3>
+          <p>Each payment network in the code gets its own card: the Bakong account of a KHQR code, the PromptPay mobile number or ID, the DuitNow QR ID, the VietQR bank and account, the PayNow mobile or UEN, the QRIS merchant ID, or a card network's merchant ID.</p>
+        </div>
+        <div>
+          <h3>Whether it was changed</h3>
+          <p>Every EMV payment code ends with a checksum. If one character was changed after the code was made, the checksum no longer matches. The checksum isn't a signature, though: anyone can make a new, valid code for their own account and print it over a shop's sticker.</p>
+        </div>
+        <div>
+          <h3>Whether it follows the rules</h3>
+          <p>Every field is checked against EMVCo's Merchant-Presented Mode specification: the order, the lengths, the amount's format, the fees, and characters that are invisible or reverse the direction of text and can make a name look like something else.</p>
+        </div>
+      </div>
+      <p class="small">Payee reads codes; it doesn't pay them or check that an account exists. Before paying an unfamiliar code, check the account with the person or shop you're paying. Examples on this page use made-up accounts, except the DuitNow one, which is PayNet's published test code.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Payee · open source (Apache-2.0) · by Vong Visalsambath</span>
+    <span>Not affiliated with EMVCo or any payment network.</span>
+  </footer>
+</body>
+</html>
