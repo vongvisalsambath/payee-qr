@@ -1,5 +1,7 @@
 # Payee
 
+**Website: [payee-qr.vercel.app](https://payee-qr.vercel.app)** · runs in your browser; nothing is uploaded.
+
 **Who does this payment QR really pay?** Payee reads EMV payment QR codes, the kind used by KHQR (Cambodia), PromptPay (Thailand), DuitNow (Malaysia), QRIS (Indonesia), VietQR (Vietnam), PayNow and SGQR (Singapore) and many others. It does three things:
 - says which account a payment would go to;
 - explains every field in plain English;

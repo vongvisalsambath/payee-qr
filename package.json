@@ -4,15 +4,43 @@
   "description": "Reads EMV payment QR codes (KHQR, PromptPay, DuitNow, QRIS, VietQR, PayNow/SGQR and others), checks them against the EMVCo specification, and says who the money really goes to.",
   "license": "Apache-2.0",
   "author": "Vong Visalsambath",
-  "repository": { "type": "git", "url": "git+https://github.com/vongvisalsambath/payee-qr.git" },
-  "keywords": ["emv", "qr", "emvco", "khqr", "bakong", "promptpay", "duitnow", "qris", "vietqr", "paynow", "sgqr", "payments"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vongvisalsambath/payee-qr.git"
+  },
+  "homepage": "https://payee-qr.vercel.app",
+  "keywords": [
+    "emv",
+    "qr",
+    "emvco",
+    "khqr",
+    "bakong",
+    "promptpay",
+    "duitnow",
+    "qris",
+    "vietqr",
+    "paynow",
+    "sgqr",
+    "payments"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
-  "files": ["dist", "README.md", "LICENSE"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "sideEffects": false,
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "build:site": "node scripts/build-site.mjs",
