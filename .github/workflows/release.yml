@@ -1,0 +1,43 @@
+# Publishes payee-qr to npm when a version tag (v0.1.0, v0.2.0, ...) is pushed.
+# Uses npm trusted publishing: no token is stored; GitHub proves to npm which workflow is publishing,
+# and npm adds a provenance statement to each release. Set it up once on npmjs.com, after the first
+# release: package settings → Trusted Publisher → GitHub Actions: vongvisalsambath / payee-qr / release.yml.
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      # pinned to commits (the tag is in the comment): this job can publish, so a moved tag mustn't change what runs
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: npm 11.5.1 or later (needed for trusted publishing)
+        run: npm install -g npm@11.21.1
+      # no install scripts: this job can prove its identity to npm, and a dependency's script shouldn't get the chance
+      - run: npm ci --ignore-scripts
+      - run: npm audit --audit-level=moderate
+      - name: The tag matches the package version
+        run: |
+          v="v$(node -p "require('./package.json').version")"
+          echo "tag $GITHUB_REF_NAME, package $v"
+          test "$v" = "$GITHUB_REF_NAME"
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm publish --access public
